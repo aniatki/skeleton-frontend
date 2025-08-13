@@ -76,7 +76,7 @@ export default function BookingForm({ onSubmit }: { onSubmit: FormEventHandler<H
   const formattedDate = selectedDate ? selectedDate.toISOString().split('T')[0] : "";
 
   return (
-    <div onSubmit={onSubmit} className={`fixed z-100 backdrop-blur-3xl bg-primary-foreground top-16  p-8 rounded-lg shadow-2xl w-full max-w-md`}>
+    <div className={`fixed z-100 backdrop-blur-3xl bg-primary-foreground top-16  p-8 rounded-lg shadow-2xl w-full max-w-md`}>
       <h2 className="text-2xl font-bold mb-6 text-center ">Book Appointment</h2>
       <form
         action={formAction}

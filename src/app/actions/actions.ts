@@ -11,7 +11,16 @@ function validatePhoneNumber(phoneNumber: string): boolean {
   return phoneRegex.test(strippedNumber);
 }
 
-export async function createBooking(prevState: InitialState, formData: FormData): Promise<InitialState> {
+function parseLocalDateTime(dateStr: string, timeStr: string): Date {
+  const [year, month, day] = dateStr.split("-").map(Number);
+  const [hours, minutes] = timeStr.split(":").map(Number);
+  return new Date(year, month - 1, day, hours, minutes); // month is 0-indexed
+}
+
+export async function createBooking(
+  prevState: InitialState,
+  formData: FormData
+): Promise<InitialState> {
   const clientName = formData.get("clientName") as string;
   const clientPhone = formData.get("clientPhone") as string;
   const service = formData.get("service") as string;
@@ -19,30 +28,32 @@ export async function createBooking(prevState: InitialState, formData: FormData)
   const bookingDate = formData.get("bookingDate") as string;
   const bookingTime = formData.get("bookingTime") as string;
 
+  // Validate required fields
   if (!clientName || !clientPhone || !service || !barber || !bookingDate || !bookingTime) {
-    return {
-      success: false,
-      id: null,
-      error: "Please fill out all required fields."
-    };
+    return { success: false, id: null, error: "Please fill out all required fields." };
   }
 
+  // Validate phone number
   if (!validatePhoneNumber(clientPhone)) {
-    return {
-      success: false,
-      id: null,
-      error: "Invalid phone number."
-    };
+    return { success: false, id: null, error: "Invalid phone number." };
   }
 
-  const combinedDateTimeString = `${bookingDate}T${bookingTime}:00`;
+  // Parse date & time in local timezone
+  const requiredDate = parseLocalDateTime(bookingDate, bookingTime);
+  const now = new Date();
+
+  // Validate future date
+  if (requiredDate < now) {
+    return { success: false, id: null, error: "Please choose a date in the future." };
+  }
+
   try {
     const newBooking: NewBooking = {
       clientName,
       clientPhone,
       service,
       barber,
-      bookingTime: Timestamp.fromDate(new Date(combinedDateTimeString)),
+      bookingTime: Timestamp.fromDate(requiredDate),
       status: BookingStatus.Pending,
       createdAt: serverTimestamp(),
     };
@@ -51,20 +62,12 @@ export async function createBooking(prevState: InitialState, formData: FormData)
 
     console.log("Successfully created new booking with ID:", docRef.id);
 
+    // Optional: refresh UI after booking
     revalidatePath("/");
 
-    return {
-      success: true,
-      id: docRef.id,
-      error: null
-    };
-
+    return { success: true, id: docRef.id, error: null };
   } catch (e) {
     console.error("Error adding booking to Firestore:", e);
-    return {
-      success: false,
-      id: null,
-      error: "An error occurred while creating the booking."
-    };
+    return { success: false, id: null, error: "An error occurred while creating the booking." };
   }
 }
