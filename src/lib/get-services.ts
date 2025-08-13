@@ -1,7 +1,7 @@
-import { collection, getDocs, query } from "firebase/firestore";
+import { collection, DocumentData, getDocs, query } from "firebase/firestore";
 import { db } from "../../firebase/firebase.config";
 
-export async function getServices(): Promise<any> {
+export async function getServices(): Promise<DocumentData | null> {
     try {
         const servicesCollectionRef = collection(db, "services");
         const servicesQuery = query(servicesCollectionRef);
@@ -23,7 +23,7 @@ export async function getServices(): Promise<any> {
     }
 }
 
-export async function getBarbers(): Promise<any> {
+export async function getBarbers(): Promise<DocumentData | null> {
     try {
         const barbersCollectionRef = collection(db, "barbers");
         const barbersQuery = query(barbersCollectionRef);

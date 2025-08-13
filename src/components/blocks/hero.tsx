@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { Button } from '../ui/button'
 import BookingForm from '../BookingForm'
+import Image from 'next/image'
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -25,7 +25,7 @@ export default function Hero() {
           <div className="flex lg:flex-1">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
+              <Image
                 alt=""
                 src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                 className="h-8 w-auto"
@@ -61,7 +61,7 @@ export default function Hero() {
             <div className="flex items-center justify-between">
               <a href="#" className="-m-1.5 p-1.5">
                 <span className="sr-only">Your Company</span>
-                <img
+                <Image
                   alt=""
                   src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
                   className="h-8 w-auto"
@@ -136,7 +136,7 @@ export default function Hero() {
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
               {!isFormOpen && <Button onClick={() => setIsFormOpen(true)} className='cursor-pointer'>Book Now</Button>}
-              {isFormOpen && <BookingForm onSubmit={() => setIsFormOpen(false)} />}
+              {isFormOpen && <BookingForm />}
             </div>
           </div>
         </div>

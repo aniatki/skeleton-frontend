@@ -24,7 +24,7 @@ type Barber = {
   avatarUrl: string,
 }
 
-export default function BookingForm({ onSubmit }: { onSubmit: FormEventHandler<HTMLDivElement> | undefined}) {
+export default function BookingForm() {
   
   const initialState: InitialState = {
     success: false,
@@ -38,13 +38,15 @@ export default function BookingForm({ onSubmit }: { onSubmit: FormEventHandler<H
   const [loading, setLoading] = useState(false)
   const [services, setServices] = useState<Service[] | []>([])
   const [barbers, setBarbers] = useState<Barber[] | []>([])
+  
+  loading
 
   useEffect(() => {
     const loadServices = async (): Promise<void> => {
       setLoading(true)
       try {
         const servicesData = await getServices();
-        setServices(servicesData.services)
+        setServices(servicesData?.services)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -55,7 +57,7 @@ export default function BookingForm({ onSubmit }: { onSubmit: FormEventHandler<H
       setLoading(true)
       try {
         const barbersData = await getBarbers();
-        setBarbers(barbersData.barbers)
+        setBarbers(barbersData?.barbers)
         setLoading(false)
       } catch (error) {
         setLoading(false)

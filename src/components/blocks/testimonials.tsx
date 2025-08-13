@@ -1,10 +1,12 @@
+import Image from "next/image";
+
 export default function Example() {
   return (
     <section className="relative isolate overflow-hidden px-6 py-24 sm:py-32 lg:px-8">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,var(--color-primary),transparent)] opacity-10" />
       <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg]  shadow-xl ring-1 shadow-indigo-500/5 ring-white/5 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
       <div className="mx-auto max-w-2xl lg:max-w-4xl">
-        <img
+        <Image
           alt=""
           src="https://tailwindcss.com/plus-assets/img/logos/workcation-logo-indigo-400.svg"
           className="mx-auto h-12"
@@ -17,7 +19,7 @@ export default function Example() {
             </p>
           </blockquote>
           <figcaption className="mt-10">
-            <img
+            <Image
               alt=""
               src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
               className="mx-auto size-10 rounded-full"
