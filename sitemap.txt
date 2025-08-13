@@ -1,0 +1,8 @@
+Site
+// -Navbar
+// -Hero
+// -CTA w/ BookingForm
+// -Our Team
+// -Testimonials / Gallery
+// -Location
+-Footer
